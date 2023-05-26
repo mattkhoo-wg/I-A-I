@@ -14,14 +14,17 @@ router.put('/update-family', async (req, res) => {
             if (!userToAdd) {
                 res.status(400).json({message: "User not found"});
             }
-            family.members.push(userToAdd._id);
-            family.posts = family.posts.concat(userToAddFamily.posts);
-            family.events = family.events.concat(userToAddFamily.events);
-            userToAdd.family = family._id;
-
-            await family.save();
-            await userToAdd.save();
-            res.status(200).json({message: "User added to family"});
+            if (!family.members.includes(userToAdd._id)) {
+                family.members.push(userToAdd._id);
+                family.posts = family.posts.concat(userToAddFamily.posts);
+                family.events = family.events.concat(userToAddFamily.events);
+                userToAdd.family = family._id;
+                await family.save();
+                await userToAdd.save();
+                res.status(200).json({message: "User added to family"});
+            } else {
+                res.status(400).json({message: "User already in family"});
+            }
         } else {
             res.status(401).json({message: "You must be logged in to add a user to your family"});
         }; 
