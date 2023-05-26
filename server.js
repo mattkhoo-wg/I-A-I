@@ -159,8 +159,8 @@ app.post('/logout', (req, res) => {
     });     
 });
 
-// app.listen(PORT, function () {
-//     console.log("Express server listening on port", PORT);
-// });
+app.listen(PORT, function () {
+    console.log("Express server listening on port", PORT);
+});
 
 export default app;
