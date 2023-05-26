@@ -46,6 +46,7 @@ async function main(){
     //for bonding journal
     const postSchema = new mongoose.Schema({
         postedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+        firstName: String,
         family: {type: mongoose.Schema.Types.ObjectId, ref: 'Family'},
         type: String, //emotion or gratitude
         title: String,
