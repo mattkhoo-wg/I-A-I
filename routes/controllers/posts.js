@@ -40,7 +40,7 @@ router.post('/add-post', async function(req, res, next) {
             console.log('making new post')
             const newPost = new req.models.Post({
                 postedBy: req.body._id,
-                firstName: user.firstName,
+                firstName: user.name,
                 family: family._id,
                 title: req.body.title,
                 type: req.body.type,
