@@ -8,7 +8,6 @@ import cookieParser from 'cookie-parser';
 import {OAuth2Client} from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import {SESSION_SECRET, MONGODB_USERNAME, MONGODB_PASSWORD, CLIENT_ID, CLIENT_SECRET, JWT_SECRET} from './credentials.js';
 
 import apiRouter from './routes/api.js';
 
@@ -16,7 +15,7 @@ var app = express();
 
 const PORT = process.env.PORT || 8080;
 
-const client = new OAuth2Client(CLIENT_ID);
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 async function verifyGoogleToken(token) {
     try {
@@ -38,7 +37,7 @@ app.use(function(req, res, next) {
 
 // Use the MongoStore for session storage
 const store = new MongoStore({
-    mongoUrl: "mongodb+srv://"+ MONGODB_USERNAME + ":"+ MONGODB_PASSWORD + "@mvpcluster.drilqih.mongodb.net/test",
+    mongoUrl: "mongodb+srv://"+ process.env.MONGODB_USERNAME + ":"+ process.env.MONGODB_PASSWORD + "@mvpcluster.drilqih.mongodb.net/test",
     ttl: 14 * 24 * 60 * 60
 })
 
@@ -116,7 +115,7 @@ app.post('/auth/google', async (req, res) => {
             }
             req.session.authenticated = true;
             req.session.save();
-            res.status(200).json({success: true, user: user, token: jwt.sign({user: user}, JWT_SECRET, {expiresIn: '1d'})})
+            res.status(200).json({success: true, user: user, token: jwt.sign({user: user}, process.env.JWT_SECRET, {expiresIn: '1d'})})
         }
     } catch (err) {
         console.log(err);
@@ -135,7 +134,7 @@ app.post('/auth/login', async (req, res) => {
             if(hashedPassword === user.password){
                 req.session.authenticated = true;
                 req.session.save();
-                res.status(200).json({success: true, user: user, token: jwt.sign({user: user}, JWT_SECRET, {expiresIn: '1d'})})
+                res.status(200).json({success: true, user: user, token: jwt.sign({user: user}, process.env.JWT_SECRET, {expiresIn: '1d'})})
             } else {
                 res.status(401).json({success: false, message: "Invalid password"});
             }
@@ -160,8 +159,8 @@ app.post('/logout', (req, res) => {
     });     
 });
 
-app.listen(PORT, function () {
-    console.log("Express server listening on port", PORT);
-});
+// app.listen(PORT, function () {
+//     console.log("Express server listening on port", PORT);
+// });
 
 export default app;

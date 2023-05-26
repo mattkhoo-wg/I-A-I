@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
 
-import { MONGODB_USERNAME, MONGODB_PASSWORD } from './credentials.js';
 
 let models = {};
 main().catch((error) => console.log(error));
 
 async function main(){
     try{
-        const url = "mongodb+srv://"+ MONGODB_USERNAME + ":"+ MONGODB_PASSWORD + "@mvpcluster.drilqih.mongodb.net/test"
+        const url = "mongodb+srv://"+ process.env.MONGODB_USERNAME + ":"+ process.env.MONGODB_PASSWORD + "@mvpcluster.drilqih.mongodb.net/test"
         console.log("Connecting to MongoDB...");
         await mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
         console.log('Connected to MongoDB');
