@@ -21,7 +21,7 @@ async function verifyGoogleToken(token) {
     try {
         const ticket = await client.verifyIdToken({
             idToken: token,
-            audience: CLIENT_ID,
+            audience: process.env.CLIENT_ID,
         });
         return {payload: ticket.getPayload()};
     } catch (err) {
@@ -154,7 +154,7 @@ app.post('/logout', (req, res) => {
             res.sendStatus(500);
         } else {
             res.clearCookie('connect.sid');
-            res.redirect('http://localhost:3000/login');  
+            res.redirect('https://capstone-77b48.web.app');  
         }
     });     
 });

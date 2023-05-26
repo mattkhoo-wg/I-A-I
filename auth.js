@@ -6,7 +6,7 @@ passport.use(
     new GoogleStrategy({
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: "http://localhost:8080/auth/google/callback",
+        callbackURL: "https://squid-app-hq6q4.ondigitalocean.app/auth/google/callback",
         session: true
     },
     async (accessToken, refreshToken, profile, done) => {
